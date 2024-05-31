@@ -1,0 +1,16 @@
+TOPIC MULTER
+1. req.file : If there is some value means user has uploaded the image.
+2. req.file.file : it refers to the file name of uploaded photo in the /public folder.
+3. req.file.path : it refers to the path name of photo where it was saved by multer.
+4. req.file.originalFilename : it refers to the file name of photo that was user used to select on his computer.
+
+TOPIC MONGODB
+1. await Product.distinct("category") : gives an array of unique category value .
+2. if await findById() does not able to find any document then it's return null value.
+3. It's important to ensure that the value of the "ref" field in the local collection matches a unique identifier in the referenced collection (e.g., username, email), which is typically the _id field.
+
+TOPIC: node-cache 
+1. It is used to cache data fetched from database in RAM memory with "key-value" pairs.
+2. which makes our server fast to get data with same key in the next time.
+3. whenever server restarts all cached data get lost.
+4. We can also invalid cached data with nodeCache.del("key");
