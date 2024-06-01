@@ -12,6 +12,7 @@ exports.createOrder = catchAsync(async (req, res) => {
     const product = await Product.findById(item.productId);
     product.stock -= item.quantity;
     await product.save();
+    invalidCache({ product: true, itemId: product._id });
   });
 
   invalidCache({ order: true, userId: req.user.id });
