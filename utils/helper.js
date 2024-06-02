@@ -7,4 +7,10 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-module.exports = { filterObj };
+const calcChangeRate = (thisMonth, lastMonth) => {
+  if (lastMonth === 0) return thisMonth * 100;
+  const perc = ((thisMonth - lastMonth) / lastMonth) * 100;
+  return Number(perc.toFixed(0));
+};
+
+module.exports = { filterObj, calcChangeRate };
