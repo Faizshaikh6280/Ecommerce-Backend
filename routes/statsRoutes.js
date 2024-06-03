@@ -14,3 +14,4 @@ router.get("/pie-chart", statsController.getPieChart);
 // router.route("/line-chart").delete(statsController.getLineChart);
 
 module.exports = router;
+
