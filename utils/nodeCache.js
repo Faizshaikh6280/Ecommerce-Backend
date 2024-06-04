@@ -1,7 +1,7 @@
 const NodeCache = require("node-cache");
 const mycache = new NodeCache();
 
-const invalidCache = function ({ product, order, admin, userId, itemId }) {
+const invalidCache = function ({ product, order, userId, itemId }) {
   if (product) {
     const productKeys = ["latest-products", "admin-products", "categories"];
     // const productIds = await Product.find().select("_id");
@@ -16,6 +16,14 @@ const invalidCache = function ({ product, order, admin, userId, itemId }) {
     if (itemId) orderKeys.push(`order-${itemId}`);
     mycache.del(orderKeys);
   }
+
+  // It needs to be invalidate in every scnerio either order or product is updated or created.
+  mycache.del([
+    "admin-dashboard",
+    "admin-pie-chart",
+    "admin-bar-chart",
+    "admin-line-chart",
+  ]);
 };
 
 module.exports = { mycache, invalidCache };

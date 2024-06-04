@@ -10,7 +10,7 @@ router.use(authController.restrictTo("admin"));
 
 router.get("/dashboard", statsController.getDashBoardStats);
 router.get("/pie-chart", statsController.getPieChart);
-// router.route("/bar-chart").delete(statsController.getBarChart);
-// router.route("/line-chart").delete(statsController.getLineChart);
+router.get("/bar-chart", statsController.getBarChart);
+router.get("/line-chart", statsController.getLineChart);
 
 module.exports = router;

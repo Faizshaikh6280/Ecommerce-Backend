@@ -14,6 +14,7 @@ const calcChangeRate = (thisMonth, lastMonth) => {
   const perc = ((thisMonth - lastMonth) / lastMonth) * 100;
   return Number(perc.toFixed(0));
 };
+
 const getNoOfProductBasedOnCategory = async function (productCount) {
   const result = await productModel.aggregate([
     {
@@ -45,4 +46,32 @@ const getNoOfProductBasedOnCategory = async function (productCount) {
   ]);
   return result;
 };
-module.exports = { filterObj, calcChangeRate, getNoOfProductBasedOnCategory };
+
+const getPastMonthsData = function (docArr, length, field) {
+  const today = new Date();
+  const monthlyCount = new Array(length).fill(0);
+  let monthlySum;
+  if (field) {
+    monthlySum = new Array(length).fill(0);
+  }
+  docArr.forEach((doc) => {
+    const createdAt = doc.createdAt;
+    let monthDiff = (today.getMonth() - createdAt.getMonth() + 12) % 12;
+
+    if (monthDiff < length) {
+      monthlyCount[length - 1 - monthDiff] += 1;
+      if (field) {
+        monthlySum[length - 1 - monthDiff] += doc[field];
+      }
+    }
+  });
+  const arr = [monthlyCount, field ? monthlySum : null];
+  return arr;
+};
+
+module.exports = {
+  filterObj,
+  calcChangeRate,
+  getPastMonthsData,
+  getNoOfProductBasedOnCategory,
+};
