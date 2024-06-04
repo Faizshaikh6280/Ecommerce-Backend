@@ -7,7 +7,11 @@ TOPIC MULTER
 TOPIC MONGODB
 1. await Product.distinct("category") : gives an array of unique category value .
 2. if await findById() does not able to find any document then it's return null value.
+<<<<<<< HEAD
 3. It's important to ensure that the value of the "ref" field in the local collection matches a unique identifier in the referenced collection (e.g., username, email), which is typically the _id field.
+=======
+3. It's important to ensure that the value of the "ref" field in the local collection matches a unique identifier in the referenced collection (e.g., username, email), which is typically the "_id" field.
+>>>>>>> a01aa0bcd4aaa664200a06394a49d5fa1d30069b
 4. Product.countDocuments() -> This method is used to count the no. of documents of particular collection , "Product" in this case.
 
 TOPIC: node-cache 
