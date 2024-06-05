@@ -1,6 +1,23 @@
 const catchAsync = require("../utils/catchAsync");
 const Coupon = require("../models/couponModel");
 const AppError = require("../utils/appError");
+const stripe = require("../services/stripe");
+
+exports.createPaymentIntent = catchAsync(async (req, res, next) => {
+  const {amount} = req.body;
+
+  if(!amount) return next(new AppError("Amount is not provided!"));
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount : Number(amount)* 100,
+    currency : "inr"
+  })
+
+  res.status(201).json({
+    status : "success",
+    clintSecret : paymentIntent.client_secret
+  })
+
+});
 
 exports.applyDiscount = catchAsync(async (req, res, next) => {
   const { coupon } = req.query;
