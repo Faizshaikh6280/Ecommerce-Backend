@@ -34,41 +34,30 @@ const createSendToken = (user, res, statusCode, message) => {
 };
 
 exports.signup = catchAsync(async function (req, res, next) {
-  const filteredBody = filterObj(
-    req.body,
-    "id",
-    "name",
-    "photo",
-    "email",
-    "role",
-    "dob",
-    "gender",
-    "password",
-    "confirmPassword"
-  );
+  const filteredBody = filterObj(req.body,"id","name","photo","email","role","dob","gender","isByProvider","password","confirmPassword");
 
-  console.log(filteredBody);
   const newUser = await User.create(filteredBody);
   createSendToken(newUser, res, 201, "User created successfully!");
 });
 
 exports.login = catchAsync(async function (req, res, next) {
-  const { email, password } = req.body;
+  const { email, password ,isByProvider,id} = req.body;
 
-  // check whether email and password exists
-  if (!email || !password) {
-    return next(new AppError("Please provide both email and password!"));
+  let user;
+  if(isByProvider){
+   user = await User.findOne({id});
+
+  }else {
+    if(!email || !password) {
+      return next(new AppError("Email or Password is missing!"));
+    }
+    user = await User.findOne({ email }).select("+password");
+    // check whether user exists and password is correct
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return next(new AppError("Email or Password is incorrect", 400));
+    }
+    user.password = undefined;
   }
-
-  const user = await User.findOne({ email }).select("+password");
-
-  // check whether user exists and password is correct
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Email or Password is incorrect", 400));
-  }
-
-  user.password = undefined;
-
   // send token
   createSendToken(user, res, 200, "User login successsfully!");
 });

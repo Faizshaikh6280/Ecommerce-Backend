@@ -29,7 +29,7 @@ const sendErrorProd = function (err, req, res) {
     }
     //2. Programmming or unknown error : Don't leak error details,
     console.error("ERROR 💥", err);
-    return res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({  
       status: "error",
       message: "Something went wrong!",
     });

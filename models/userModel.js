@@ -40,13 +40,11 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Please provide password"],
       minlength: 4,
       select: false,
     },
     confirmPassword: {
       type: String,
-      required: [true, "Please provide confirm password"],
       minlength: 4,
       select: false,
       validate: {
@@ -60,6 +58,10 @@ const userSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
+    isByProvider : {
+      type : Boolean,
+      default : false,
+    }
   },
   {
     timestamps: true,
