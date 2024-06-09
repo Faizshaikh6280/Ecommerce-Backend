@@ -53,6 +53,7 @@ const sendErrorProd = function (err, req, res) {
 };
 
 module.exports = function (err, req, res, next) {
+  console.log(process.env.NODE_ENV);
   err.statusCode ||= 400;
   err.status ||= "Error";
   if (process.env.NODE_ENV === "development") {

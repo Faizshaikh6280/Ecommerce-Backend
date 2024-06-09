@@ -4,7 +4,7 @@
   "description": "E-commerce web app",
   "main": "server.js",
   "scripts": {
-    "start:dev": "nodemon server.js NODE_ENV=development ",
+    "start:dev": "nodemon server.js",
     "start:prod": "nodemon server.js NODE_ENV=production"
   },
   "author": "",
