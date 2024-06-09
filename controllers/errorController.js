@@ -10,7 +10,7 @@ const sendErrorDev = function (err, req, res) {
   }
 
   //B:) Check Redndered webiste Errror
-  console.log("Error💥", err);
+  // console.log("Error💥", err);
   res.status(err.statusCode).render("error", {
     title: "Something went wrong!",
     msg: err.message,
@@ -29,7 +29,7 @@ const sendErrorProd = function (err, req, res) {
     }
     //2. Programmming or unknown error : Don't leak error details,
     console.error("ERROR 💥", err);
-    return res.status(err.statusCode).json({  
+    return res.status(err.statusCode).json({
       status: "error",
       message: "Something went wrong!",
     });
@@ -55,10 +55,9 @@ const sendErrorProd = function (err, req, res) {
 module.exports = function (err, req, res, next) {
   err.statusCode ||= 400;
   err.status ||= "Error";
-
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, req, res);
-  } else if ([process.env.NODE_ENV === "production"]) {
+  } else if (process.env.NODE_ENV === "production") {
     sendErrorProd(err, req, res, next);
   }
 };

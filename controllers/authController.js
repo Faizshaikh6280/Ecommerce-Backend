@@ -34,21 +34,31 @@ const createSendToken = (user, res, statusCode, message) => {
 };
 
 exports.signup = catchAsync(async function (req, res, next) {
-  const filteredBody = filterObj(req.body,"id","name","photo","email","role","dob","gender","isByProvider","password","confirmPassword");
-
+  const filteredBody = filterObj(
+    req.body,
+    "id",
+    "name",
+    "photo",
+    "email",
+    "role",
+    "dob",
+    "gender",
+    "isByProvider",
+    "password",
+    "confirmPassword"
+  );
   const newUser = await User.create(filteredBody);
   createSendToken(newUser, res, 201, "User created successfully!");
 });
 
 exports.login = catchAsync(async function (req, res, next) {
-  const { email, password ,isByProvider,id} = req.body;
+  const { email, password, isByProvider, id } = req.body;
 
   let user;
-  if(isByProvider){
-   user = await User.findOne({id});
-
-  }else {
-    if(!email || !password) {
+  if (isByProvider) {
+    user = await User.findOne({ id });
+  } else {
+    if (!email || !password) {
       return next(new AppError("Email or Password is missing!"));
     }
     user = await User.findOne({ email }).select("+password");
