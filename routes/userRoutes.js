@@ -10,6 +10,5 @@ router.post("/forgotPassword", authController.forgetPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
 
 // Below all routes will be protected now
-router.use(authController.protect);
-
+router.get("/:id", userController.getUser);
 module.exports = router;

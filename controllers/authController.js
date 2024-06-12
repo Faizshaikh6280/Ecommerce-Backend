@@ -27,9 +27,7 @@ const createSendToken = (user, res, statusCode, message) => {
     status: "success",
     message,
     token,
-    data: {
-      user,
-    },
+    data: user,
   });
 };
 
@@ -53,10 +51,13 @@ exports.signup = catchAsync(async function (req, res, next) {
 
 exports.login = catchAsync(async function (req, res, next) {
   const { email, password, isByProvider, id } = req.body;
-
-  let user;
+  console.log(req.body);
   if (isByProvider) {
     user = await User.findOne({ id });
+    if (!user)
+      return next(
+        new AppError("User does not exits, Please Signup before login!")
+      );
   } else {
     if (!email || !password) {
       return next(new AppError("Email or Password is missing!"));

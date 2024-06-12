@@ -52,16 +52,16 @@ const userSchema = new mongoose.Schema(
         validator: function (el) {
           return el === this.password;
         },
-        message: "Passwords are not the same!",
+        message: "Confirm Password does not matches with password!",
       },
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    isByProvider : {
-      type : Boolean,
-      default : false,
-    }
+    isByProvider: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
