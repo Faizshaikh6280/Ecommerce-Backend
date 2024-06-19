@@ -51,6 +51,7 @@ exports.signup = catchAsync(async function (req, res, next) {
 
 exports.login = catchAsync(async function (req, res, next) {
   const { email, password, isByProvider, id } = req.body;
+  let user;
   console.log(req.body);
   if (isByProvider) {
     user = await User.findOne({ id });

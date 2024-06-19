@@ -43,7 +43,8 @@ class APIFeatures {
 
   pagination() {
     const page = this.queryObject.page || 1;
-    const limit = this.queryObject.limit || 30;
+    const limit = this.queryObject.limit || process.env.PAGE_SIZE;
+    console.log(limit);
     const skip = (page - 1) * limit;
     this.DBquery = this.DBquery.skip(skip).limit(limit);
     return this;

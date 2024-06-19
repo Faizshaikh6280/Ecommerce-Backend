@@ -68,9 +68,10 @@ exports.getLatestProducts = catchAsync(async (req, res, next) => {
   if (mycache.has("latest-products")) {
     latestProducts = JSON.parse(mycache.get("latest-products"));
   } else {
-    latestProducts = await Product.find().sort("-createdAt").limit(5);
+    latestProducts = await Product.find({}).sort({ createdAt: -1 }).limit(5);
     mycache.set(`latest-products`, JSON.stringify(latestProducts));
   }
+  console.log(latestProducts);
   res.status(200).json({
     status: "success",
     length: 5,
@@ -105,7 +106,6 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 // Need to invalid cache on create,delete,update & on new order.
 exports.adminProducts = catchAsync(async (req, res, next) => {
   let products;
-
   if (mycache.has("admin-products")) {
     products = JSON.parse(mycache.get("admin-products"));
   } else {
@@ -134,6 +134,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     status: "success",
     length: products.length,
     data: products,
+    totalPage: Math.ceil(products.length / process.env.PAGE_SIZE),
   });
 });
 
