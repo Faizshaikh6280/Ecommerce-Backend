@@ -71,7 +71,6 @@ exports.getLatestProducts = catchAsync(async (req, res, next) => {
     latestProducts = await Product.find({}).sort({ createdAt: -1 }).limit(5);
     mycache.set(`latest-products`, JSON.stringify(latestProducts));
   }
-  console.log(latestProducts);
   res.status(200).json({
     status: "success",
     length: 5,
